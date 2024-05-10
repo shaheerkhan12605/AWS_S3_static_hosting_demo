@@ -17,12 +17,14 @@ Outputs:
 Resources:
   S3Bucket:
     Type: AWS::S3::Bucket
+    DeletionPolicy: Retain
     Properties:
       AccessControl: Private
       BucketName: "shaheer-gogift-cfn-test"
 
   CloudFrontOriginAccessControl:
     Type: AWS::CloudFront::OriginAccessControl
+    DeletionPolicy: Retain
     Properties:
       OriginAccessControlConfig:
         Description: "origin access control(OAC) for allowing cloudfront to access S3 bucket"
@@ -33,6 +35,7 @@ Resources:
 
   CloudFrontDistribution:
     Type: AWS::CloudFront::Distribution
+    DeletionPolicy: Retain
     DependsOn:
       - S3Bucket
     Properties:
@@ -72,6 +75,7 @@ Resources:
 
   BucketPolicy:
     Type: AWS::S3::BucketPolicy
+    DeletionPolicy: Retain
     Properties:
       Bucket: "shaheer-gogift-cfn-test"
       PolicyDocument:
@@ -84,4 +88,4 @@ Resources:
             Resource: "arn:aws:s3:::shaheer-gogift-cfn-test/*"
             Condition:
               StringEquals:
-                AWS:SourceArn: !Sub "arn:aws:cloudfront::Id-of-IAM-user:distribution/${CloudFrontDistribution}"
+                AWS:SourceArn: !Sub "arn:aws:cloudfront::943768457396:distribution/${CloudFrontDistribution}" #Acceptance Account ID
